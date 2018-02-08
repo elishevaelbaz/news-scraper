@@ -8,7 +8,8 @@ var Schema = mongoose.Schema;
 var ArticleSchema = new Schema({
   // `headline` is required and of type String
   headline: {
-    type: String
+    type: String,
+    unique: true
     // ,
     // required: true
   },
@@ -22,6 +23,10 @@ var ArticleSchema = new Schema({
     // ,
     // required: true
   },
+
+  isSaved: {
+    type: Boolean,
+    default: false},
 
   // `note` is an object that stores a Note id
   // The ref property links the ObjectId to the Note model
