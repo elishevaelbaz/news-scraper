@@ -113,7 +113,8 @@ app.get("/scrape", function(req, res) {
 
 
     // If we were able to successfully scrape and save an Article, send a message to the client
-    res.send("Scrape complete " + counter);
+    res.sendFile(path.join(__dirname, "public/index.html"));
+
   });
 });
 

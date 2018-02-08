@@ -1,18 +1,11 @@
+// on page load
 // Grab the articles as a json
 $.getJSON("/articles", function(data) {
   // For each one
   for (var i = 0; i < data.length; i++) {
 
-//     <div class="panel panel-default">
-//   <div class="panel-heading">
-//     <h3 class="panel-title">Panel title</h3>
-//   </div>
-//   <div class="panel-body">
-//     Panel content
-//   </div>
-// </div>
 
-         // Display the apropos information on the page
+      // Display the apropos information on the page
       var panelDiv = $("<div>")
       panelDiv.attr("id", data[i]._id)
 
@@ -23,12 +16,16 @@ $.getJSON("/articles", function(data) {
 
       var panelTitle = $("<h3 class='panel-title' ></h3>")
       
-      panelTitle.text(data[i].headline)
-      // panelTitle.attr("target", "_blank")
-      panelTitle.attr("href", data[i].url)
+      
+      var newATag = $("<a>");
+      newATag.attr("target", "_blank")
+      newATag.attr("href", data[i].url)
+      newATag.text(data[i].headline)
+
+      panelTitle.append(newATag)
       panelHeading.append(panelTitle)
       panelDiv.append(panelHeading)
-      panelDiv.append("<p data-id='" + data[i]._id + "'>" + data[i].url + "</p>");
+      // panelDiv.append("<p data-id='" + data[i]._id + "'>" + data[i].url + "</p>");
     
        // if it's saved
     if (data[i].isSaved){
@@ -53,11 +50,12 @@ $.getJSON("/articles", function(data) {
 
 
 // Whenever someone clicks a p tag
-$(document).on("click", "p", function() {
+$(document).on("click", "#note-button", function() {
   // Empty the notes from the note section
   $("#notes").empty();
   // Save the id from the p tag
   var thisId = $(this).attr("data-id");
+  console.log(thisId)
 
   // Now make an ajax call for the Article
   $.ajax({
@@ -67,14 +65,23 @@ $(document).on("click", "p", function() {
     // With that done, add the note information to the page
     .then(function(data) {
       console.log(data);
+
+      $("#noteModalLabel").empty()
+      $("#noteModalBody").empty()
+  $("#noteModalLabel").append(data.headline +"<br> <textarea class='form-control' id='titleinput' rows='2' placeholder='Note Title'></textarea>")
+      $("#noteModalBody").append("<textarea class='form-control' id='bodyinput' rows='6' placeholder='Note Body'></textarea>")
+
+      //grab the id of the button and give it a data attr of the id
+      $("#savenote").attr("data-id", data._id)
+      
       // The title of the article
-      $("#notes").append("<h2>" + data.headline + "</h2>");
-      // An input to enter a new title
-      $("#notes").append("<input id='titleinput' name='title' >");
-      // A textarea to add a new note body
-      $("#notes").append("<textarea id='bodyinput' name='body'></textarea>");
-      // A button to submit a new note, with the id of the article saved to it
-      $("#notes").append("<button data-id='" + data._id + "' id='savenote'>Save Note</button>");
+      // $("#notes").append("<h2>" + data.headline + "</h2>");
+      // // An input to enter a new title
+      // $("#notes").append("<input id='titleinput' name='title' >");
+      // // A textarea to add a new note body
+      // $("#notes").append("<textarea id='bodyinput' name='body'></textarea>");
+      // // A button to submit a new note, with the id of the article saved to it
+      // $("#notes").append("<button data-id='" + data._id + "' id='savenote'>Save Note</button>");
 
       // If there's a note in the article
       if (data.note) {
@@ -83,13 +90,20 @@ $(document).on("click", "p", function() {
         // Place the body of the note in the body textarea
         $("#bodyinput").val(data.note.body);
       }
+
+      $("#noteModal").modal("show");
     });
 });
+
+
 
 // When you click the savenote button
 $(document).on("click", "#savenote", function() {
   // Grab the id associated with the article from the submit button
   var thisId = $(this).attr("data-id");
+
+  console.log(thisId)
+  console.log($("#titleinput").val())
 
   // Run a POST request to change the note, using what's entered in the inputs
   $.ajax({
@@ -127,6 +141,15 @@ $(document).on("click", "#scrape-button", function(){
       // Log the response
       console.log("hello")
       console.log(data);
+
+      $("#scrapeModalLabel").text("You successfully scraped new articles")
+      $("#scrapeModalBody").text("Woohoo!")
+
+      $("#scrapeModal").modal("show");
+
+      // force a reload of the page - to display the articles
+      location.reload()
+
      
     });
 });
@@ -179,25 +202,25 @@ $(document).on("click", "#delete-button", function(){
 });
 
 
-$(document).on("click", "#delete-button", function(){
-  console.log(this)
-  // console.log($(this).attr("data-id"))
+// $(document).on("click", "#note-button", function(){
+//   console.log(this)
+//   // console.log($(this).attr("data-id"))
 
-  var id = ($(this).attr("data-id"));
-  $.ajax({
-    method: "DELETE",
-    url: "/articles/" + id
+//   var id = ($(this).attr("data-id"));
+//   $.ajax({
+//     method: "GET",
+//     url: "/articles/" + id
     
-  })
-    // With that done
-    .then(function(data) {
-      // Log the response
-      console.log("hello")
-      console.log(data);
+//   })
+//     // With that done
+//     .then(function(data) {
+//       // Log the response
+//       console.log("hello")
+//       console.log(data);
 
-      // $(this).closest("div.article-div").remove();
-      // $("#articles").remove(this)
-      $("#" + id).remove();
+//       // $(this).closest("div.article-div").remove();
+//       // $("#articles").remove(this)
+//       $("#" + id).remove();
      
-    });
-});
+//     });
+// });
