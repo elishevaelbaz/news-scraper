@@ -1,5 +1,9 @@
+$(document).ready(function(){
+
+
 // on page load
 // Grab the articles as a json
+function displayArticles(){
 $.getJSON("/articles", function(data) {
   // For each one
   for (var i = 0; i < data.length; i++) {
@@ -17,7 +21,7 @@ $.getJSON("/articles", function(data) {
       var panelTitle = $("<h3 class='panel-title' ></h3>")
       
       
-      var newATag = $("<a>");
+      var newATag = $("<a class='article-title'>");
       newATag.attr("target", "_blank")
       newATag.attr("href", data[i].url)
       newATag.text(data[i].headline)
@@ -25,32 +29,42 @@ $.getJSON("/articles", function(data) {
       panelTitle.append(newATag)
       panelHeading.append(panelTitle)
       panelDiv.append(panelHeading)
+
+      panelDiv.append(data[i].summary)
       // panelDiv.append("<p data-id='" + data[i]._id + "'>" + data[i].url + "</p>");
     
        // if it's saved
     if (data[i].isSaved){
 
     //create a delete button
-      panelDiv.append("<button data-id='" + data[i]._id + "' class='btn btn-warning' id='delete-button'>" + "Delete Article" + "</button>");
+      panelTitle.append("<button data-id='" + data[i]._id + "' class='btn btn-warning delete-button'>" + "Delete Article" + "</button>");
       // create a note button
-      panelDiv.append("<button data-id='" + data[i]._id + "' class='btn btn-success' id='note-button'>" + "Article Notes" + "</button>");
+      panelTitle.append("<button data-id='" + data[i]._id + "' class='btn btn-success note-button'>" + "Article Notes" + "</button>");
 // append to the div with id articles (in index page)
       $("#saved-articles").append(panelDiv)
     }
     // if it is not saved
     else{      
+
     //create a save button
-      panelDiv.append("<button data-id='" + data[i]._id + "' class='btn btn-primary' id='save-button'>" + "Save Article" + "</button>");
+      panelTitle.append("<button data-id='" + data[i]._id + "' class='btn btn-primary save-button'>" + "Save Article" + "</button>");
       // append to the div with id articles (in index page)
       $("#articles").append(panelDiv)
     
     }
+
+
   }
 });
+}
+
+
+// on page load
+displayArticles();
 
 
 // Whenever someone clicks a p tag
-$(document).on("click", "#note-button", function() {
+$(document).on("click", ".note-button", function() {
   // Empty the notes from the note section
   $("#notes").empty();
   // Save the id from the p tag
@@ -92,6 +106,8 @@ $(document).on("click", "#note-button", function() {
       }
 
       $("#noteModal").modal("show");
+
+      
     });
 });
 
@@ -142,19 +158,21 @@ $(document).on("click", "#scrape-button", function(){
       console.log("hello")
       console.log(data);
 
+      displayArticles()
+
       $("#scrapeModalLabel").text("You successfully scraped new articles")
       $("#scrapeModalBody").text("Woohoo!")
 
       $("#scrapeModal").modal("show");
 
-      // force a reload of the page - to display the articles
-      location.reload()
-
      
     });
 });
 
-$(document).on("click", "#save-button", function(){
+
+
+
+$(document).on("click", ".save-button", function(){
   console.log(this)
   // console.log($(this).attr("data-id"))
 
@@ -178,7 +196,7 @@ $(document).on("click", "#save-button", function(){
 });
 
 
-$(document).on("click", "#delete-button", function(){
+$(document).on("click", ".delete-button", function(){
   console.log(this)
   // console.log($(this).attr("data-id"))
 
@@ -224,3 +242,6 @@ $(document).on("click", "#delete-button", function(){
      
 //     });
 // });
+
+
+})

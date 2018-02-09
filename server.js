@@ -56,19 +56,43 @@ app.get("/scrape", function(req, res) {
 
         let counter = 0;
         // var dataArr = [];
-    $("article h2").each(function(i, element) {
+    $("article").each(function(i, element) {
       // Save an empty result object
       var result = {};
 
-
+      // there are two different html layouts for aricles (that I know of)
       // Add the text and href of every link, and save them as properties of the result object
-      result.headline = $(this).children("a").text();
-
-      console.log("result.headline: ", i)
-      console.log(result.headline)
-      result.url = $(this).children("a").attr("href");
       
-      console.log(result.url)
+       // if ($(this).children("figure.media")){
+       //  console.log("bye")
+        // var media = $(this).children("figure.media");
+        // var storyBody = $(this).children("div.story-body");
+        // var h2Headline = storyBody.children("h2");
+        // result.url = h2Headline.children("a").attr("href");
+        // result.headline = h2Headline.children("a").text();
+
+        // result.summary = storyBody.children("p.summary").text();
+      // }
+      // else{
+      //   console.log("hello")
+        var storyDiv = $(this).children("div.story-body")
+        result.url = storyDiv.children("a").attr("href")
+        var metaDiv = storyDiv.children("a").children("div.story-meta")
+        result.headline = metaDiv.children("h2").text()
+        result.summary = metaDiv.children("p.summary").text();
+      // }
+
+      
+      
+
+      // console.log("result.headline: ", i)
+      // console.log(result.headline)
+      // console.log(result.url)
+      // console.log(result.summary)
+
+      // result.url = $(this).children("a").attr("href");
+      
+      // console.log(result.url)
       // result.summary = $(this).children("p.summary").text();
       // console.log(result.summary)
 
@@ -104,7 +128,7 @@ app.get("/scrape", function(req, res) {
           // If an error occurred, send it to the client
           return res.json(err);
         });
-        console.log(result)
+        // console.log(result)
         // console.log("added " + incr + " new items")
       }
           
