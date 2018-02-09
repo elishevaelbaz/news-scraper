@@ -10,7 +10,7 @@ Check this out on Heroku [here](https://shielded-retreat-14624.herokuapp.com/ "H
 
 ### Instructions
 
-![homepage](app/public/images/home.PNG )
+![homepage](./public/images/home.PNG "homepage")
 
   1. Whenever a user clicks on the scrape button, the app scrapes stories from the NY Times technology section and displays them for the user. Each scraped article will be saved to the application database. The app scrapes and display the following information for each article:
 
@@ -20,11 +20,11 @@ Check this out on Heroku [here](https://shielded-retreat-14624.herokuapp.com/ "H
 
      * URL - the url to the original article
 
-![saved articles](app/public/images/savedl.PNG )
+![saved articles](./public/images/savedl.PNG "saved")
 
   2. Users are also be able to leave notes on the articles displayed and revisit them later. The comments are saved to the database as well and associated with their articles. Users are also able to delete comments left on articles. All stored comments are visible to every user.
 
-![note modal](app/public/images/modal.PNG)
+![note modal](./public/images/modal.PNG "note modal")
 
 ### Note:
 
