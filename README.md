@@ -20,7 +20,7 @@ Check this out on Heroku [here](https://shielded-retreat-14624.herokuapp.com/ "H
 
      * URL - the url to the original article
 
-![saved articles](./public/images/savedl.PNG "saved")
+![saved articles](./public/images/saved.PNG "saved")
 
   2. Users are also be able to leave notes on the articles displayed and revisit them later. The comments are saved to the database as well and associated with their articles. Users are also able to delete comments left on articles. All stored comments are visible to every user.
 
