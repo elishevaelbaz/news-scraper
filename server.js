@@ -59,62 +59,15 @@ app.get("/scrape", function(req, res) {
     $("article").each(function(i, element) {
       // Save an empty result object
       var result = {};
-
-      // there are two different html layouts for aricles (that I know of)
-      // Add the text and href of every link, and save them as properties of the result object
       
-       // if ($(this).children("figure.media")){
-       //  console.log("bye")
-        // var media = $(this).children("figure.media");
-        // var storyBody = $(this).children("div.story-body");
-        // var h2Headline = storyBody.children("h2");
-        // result.url = h2Headline.children("a").attr("href");
-        // result.headline = h2Headline.children("a").text();
-
-        // result.summary = storyBody.children("p.summary").text();
-      // }
-      // else{
-      //   console.log("hello")
-        var storyDiv = $(this).children("div.story-body")
-        result.url = storyDiv.children("a").attr("href")
-        var metaDiv = storyDiv.children("a").children("div.story-meta")
-        result.headline = metaDiv.children("h2").text()
-        result.summary = metaDiv.children("p.summary").text();
-      // }
-
-      
-      
-
-      // console.log("result.headline: ", i)
-      // console.log(result.headline)
-      // console.log(result.url)
-      // console.log(result.summary)
-
-      // result.url = $(this).children("a").attr("href");
-      
-      // console.log(result.url)
-      // result.summary = $(this).children("p.summary").text();
-      // console.log(result.summary)
-
+      var storyDiv = $(this).children("div.story-body")
+      result.url = storyDiv.children("a").attr("href")
+      var metaDiv = storyDiv.children("a").children("div.story-meta")
+      result.headline = metaDiv.children("h2").text()
+      result.summary = metaDiv.children("p.summary").text();
 
       // Create a new Article using the `result` object built from scraping
      if (result.headline && result.url){
-
-
-      // if (! db.Article.findOne({ url: result.url })){
-        // console.log("-----------------------------")
-        // // console.log(db.Article.findOne({ "url": "A Guide to Snapchat For People Who Don't Get Snapchat"}))
-        // var test = db.Article.findOne({url: result.url})
-        // console.log(test)
-        // console.log(test.model.schema.Schema)
-
-
-        // console.log(Query)
-        // console.log(test.Query.Schema.obj.url)
-
-
-
-
 
       db.Article.create(result)
         .then(function(dbArticle) {
@@ -173,7 +126,7 @@ app.get("/articles/:id", function(req, res) {
 });
 
 
-// Route for grabbing a specific Article by id, and update it's isSaved propertypopulate it with it's note
+// Route for grabbing a specific Article by id, and update it's isSaved property
 app.put("/articles/:id", function(req, res) {
   // Using the id passed in the id parameter, prepare a query that updates the matching one in our db...
   db.Article.update({ _id: req.params.id}, {$set: {isSaved: true}})
