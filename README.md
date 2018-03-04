@@ -4,7 +4,7 @@
 
 This app scrape technology news from NY times website. It allows users to view and write notes on the latest news articles.
 
-Check this out on Heroku [here](https://shielded-retreat-14624.herokuapp.com/ "Heroku Link")
+Check it out on Heroku [here](https://shielded-retreat-14624.herokuapp.com/ "Heroku Link")
 
 
 
